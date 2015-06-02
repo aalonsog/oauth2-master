@@ -3,11 +3,12 @@ var querystring= require('querystring'),
     http= require('http'),
     URL= require('url');
 
-exports.OAuth2= function(clientId, clientSecret, baseSite, authorizePath, accessTokenPath, callbackURL, customHeaders) {
+exports.OAuth2= function(clientId, clientSecret, baseSite, api_site, authorizePath, accessTokenPath, callbackURL, customHeaders) {
   this._clientId= clientId;
   this._clientSecret= clientSecret;
   this._baseSite= baseSite;
   this._authorizeUrl= authorizePath || "/oauth/authorize";
+  this._api_site = api_site;
   this._accessTokenUrl= accessTokenPath || "/oauth/access_token";
   this._callbackURL = callbackURL;
   this._accessTokenName= "access_token";
@@ -25,7 +26,7 @@ exports.OAuth2.prototype.setAccessTokenName= function ( name ) {
 }
 
 exports.OAuth2.prototype._getAccessTokenUrl= function() {
-  return this._baseSite + this._accessTokenUrl;
+  return this._api_site + this._accessTokenUrl;
 }
 
 // Build the authorization header. In particular, build the part after the colon.
@@ -121,12 +122,17 @@ exports.OAuth2.prototype._executeRequest= function( http_library, options, post_
   request.end();  
 }
 
-exports.OAuth2.prototype.getAuthorizeUrl= function(response_type) {
+exports.OAuth2.prototype.getAuthorizeUrl= function(response_type, scope) {
   
   response_type = response_type || 'code';
 
-  return this._baseSite + this._authorizeUrl + '?response_type=' + response_type + '&client_id=' + this._clientId +  '&state=xyz&redirect_uri=' + this._callbackURL;
+  var url = this._baseSite + this._authorizeUrl + '?response_type=' + response_type + '&client_id=' + this._clientId +  '&state=xyz&redirect_uri=' + this._callbackURL;
 
+  if (scope) {
+    url += '&scope=' + scope;
+  }
+
+  return url;
 }
 
 exports.OAuth2.prototype.getOAuthAccessToken= function(code, callback) {
