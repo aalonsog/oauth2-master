@@ -1,7 +1,7 @@
 oauth2-example-client
 ===================
 
-Oauth2 authentication example for FI-WARE GE applications
+Oauth2 authentication example for Google Acounts
 
 - Software requirements:
 
@@ -12,7 +12,7 @@ Oauth2 authentication example for FI-WARE GE applications
 
 	npm install
 
-- Configure OAuth2 credentials in config.js file (you will find theme in your IDM account)
+- Configure OAuth2 credentials in config.js file (you will find them in Google Developers console once created the project)
 
 - Start example server
 
@@ -20,5 +20,5 @@ Oauth2 authentication example for FI-WARE GE applications
 
 - Connect to http://localhost to try the example 
 
-* Connect to http://localhost/logout to delete session cookies once you have logout in IDM portal
+* Connect to http://localhost/logout to delete session cookies once you have logout Google Accounts
 
